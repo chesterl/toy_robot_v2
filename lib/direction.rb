@@ -11,6 +11,12 @@ class Direction
     end
   end
 
+  def turn_left
+    @directions.rotate!(-1)
+  end
 
+  def turn_right
+    @directions.rotate!(1)
+  end
 
 end
