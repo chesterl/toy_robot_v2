@@ -8,14 +8,13 @@ class Simulation
   def process(command)
     begin
       read_command(command)
-      # if @robot.placed
       # binding.pry
-        @robot.send(@com,@pos_dir)
-      # else
-
-      # end
-      # if on table, then accept all
-      # else only accept place commands
+      # Pass on command if coordinates or valid or do not exist (e.g. another command)
+      if @valid_pos || @valid_pos.nil?
+        @robot.send(@com,@coord)
+      else
+        # ignore command
+      end
 
     rescue StandardError
     end
@@ -26,8 +25,16 @@ class Simulation
 
   def read_command(command)
     command_array = command.downcase.split(' ')
+    # split command into components
     @com = command_array[0].to_sym
-    @pos_dir = command_array[1]
+    # reset @valid_pos
+    @valid_pos = nil
+    # if command_array[1] is not nil, it is a place command
+    unless command_array[1].nil?
+      @coord = command_array[1].split(',')
+      @valid_pos = @table.valid_position?(@coord[0].to_i, @coord[1].to_i)
+      # check if this factors in random command_array[1] commands
+    end
   end
 
 
