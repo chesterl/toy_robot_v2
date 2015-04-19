@@ -14,8 +14,8 @@ describe Simulation do
         expect(simulation).not_to receive(:test)
       end
 
-      it "should not process an invalid command" do
-        simulation.process('PLACE 3,3, EAST')
+      it "should not process an invalid place command" do
+        simulation.process('PLACE 3.3 EAST')
         output = capture_standard_output { simulation.process('REPORT') }
         expect(output).to be_empty
       end
@@ -70,18 +70,35 @@ describe Simulation do
       end
 
       it "should ignore an invalid place command" do
-        simulation.process('PLACE 6,5,EAST')
+        simulation.process('PLACE 360')
         output = capture_standard_output { simulation.process('REPORT') }
         expect(output).to eq('1,1,NORTH')
       end
 
       it "should ignore an invalid move command" do
+        simulation.process('MOVE 6,5,EAST')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
+      it "should ignore an invalid report command" do
+        simulation.process('REPORT 6,5,EAST')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
+      it "should ignore a move command if robot moves to invalid position" do
         simulation.process('PLACE 5,5,NORTH')
         simulation.process('MOVE')
         output = capture_standard_output { simulation.process('REPORT') }
         expect(output).to eq('5,5,NORTH')
       end
 
+      it "should ignore a place command if robot moves to invalid position" do
+        simulation.process('PLACE 6,6,SOUTH')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
 
     end
   end
@@ -130,6 +147,17 @@ describe Simulation do
         simulation.process('RIGHT')
         output = capture_standard_output { simulation.process('REPORT') }
         expect(output).to eq '1,1,EAST'
+      end
+
+      it "should ignore an invalid command" do
+        simulation.process('MOVE 3,3,EAST')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
+      it "should ignore an invalid report command" do
+        output = capture_standard_output { simulation.process('REPORT 3,3') }
+        expect(output).to be_empty
       end
 
     end

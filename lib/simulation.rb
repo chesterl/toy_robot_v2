@@ -27,8 +27,8 @@ class Simulation
     command_array = command.downcase.split(' ')
     # split command into components
     @com = command_array[0].to_sym
-    # reset @valid_pos
-    @valid_pos = nil
+    # reset variables on each read
+    @valid_pos, @coord = nil
     # if command_array[1] is not nil, it is a place command
     unless command_array[1].nil?
       @coord = command_array[1].split(',')
