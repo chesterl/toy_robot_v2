@@ -1,7 +1,7 @@
 class Simulation
 
   def initialize
-    @table = Table.new(5,5)
+    @table = Table.new
     @robot = Robot.new
   end
 
@@ -36,7 +36,5 @@ class Simulation
       # check if this factors in random command_array[1] commands
     end
   end
-
-
 
 end
