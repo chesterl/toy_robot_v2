@@ -20,14 +20,26 @@ describe Simulation do
         expect(output).to be_empty
       end
 
-      it "should ignore the place command if not valid table coordinates" do
+      it "should ignore the place command if not valid x coordinates" do
         simulation.process('PLACE 6,5,EAST')
         output = capture_standard_output { simulation.process('REPORT') }
         expect(output).to be_empty
       end
 
-      it "should ignore the place command if not valid table coordinates" do
-        simulation.process('PLACE -1,-1,EAST')
+      it "should ignore the place command if not valid y coordinates" do
+        simulation.process('PLACE 5,6,EAST')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to be_empty
+      end
+
+      it "should ignore the place command if negative x coordinates" do
+        simulation.process('PLACE -1,0,EAST')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to be_empty
+      end
+
+      it "should ignore the place command if negative y coordinates" do
+        simulation.process('PLACE 0,-1,EAST')
         output = capture_standard_output { simulation.process('REPORT') }
         expect(output).to be_empty
       end
@@ -71,6 +83,30 @@ describe Simulation do
 
       it "should ignore an invalid place command" do
         simulation.process('PLACE 360')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
+      it "should ignore a place with negative x position" do
+        simulation.process('PLACE -1,0,NORTH')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
+      it "should ignore a place with negative y position" do
+        simulation.process('PLACE 0,-1,NORTH')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
+      it "should ignore a place with invalid positive x position" do
+        simulation.process('PLACE 6,4,SOUTH')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
+      it "should ignore a place with invalid positive y position" do
+        simulation.process('PLACE 4,6,SOUTH')
         output = capture_standard_output { simulation.process('REPORT') }
         expect(output).to eq('1,1,NORTH')
       end
@@ -159,9 +195,37 @@ describe Simulation do
         output = capture_standard_output { simulation.process('REPORT 3,3') }
         expect(output).to be_empty
       end
+    end
 
+    context "should not move off table" do
+      it "when commanded 'MOVE' at highest y coordinate boundary" do
+        simulation.process('PLACE 1,5,NORTH')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eql("1,5,NORTH")
+      end
+
+      it "when commanded 'MOVE' at lowest y coordinate boundary" do
+        simulation.process('PLACE 1,0,SOUTH')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eql("1,0,SOUTH")
+      end
+
+      it "when commanded 'MOVE' at highest x coordinate boundary" do
+        simulation.process('PLACE 5,1,EAST')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eql("5,1,EAST")
+      end
+
+      it "when commanded 'MOVE' at lowest x coordinate boundary" do
+        simulation.process('PLACE 0,1,WEST')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eql("0,1,WEST")
+      end
     end
 
   end
-
 end
