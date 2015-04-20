@@ -6,7 +6,6 @@ class Table
   end
 
   def valid_position?(x,y)
-    # binding.pry
     (@width).include?(x) and (@height).include?(y)
   end
 

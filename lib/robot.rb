@@ -1,10 +1,6 @@
 class Robot
 
-  attr_accessor :placed, :position, :facing
-
-  def initialize
-    @placed = false
-  end
+  attr_accessor :position, :facing
 
   def move(args)
     return if args
@@ -13,7 +9,6 @@ class Robot
 
   def place(args)
     if Direction::DIRECTIONS.include?(args[2])
-      self.placed ? placed : self.placed = true
       self.position = TablePosition.new(args[0].to_i, args[1].to_i)
       self.facing = Direction.new(args[2])
     end

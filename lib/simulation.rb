@@ -8,7 +8,6 @@ class Simulation
   def process(command)
     begin
       read_command(command)
-      # binding.pry
       # Pass on command if coordinates or valid or do not exist (e.g. another command)
       if @valid_pos || @valid_pos.nil?
         @robot.send(@com,@coord)
@@ -33,7 +32,6 @@ class Simulation
     unless command_array[1].nil?
       @coord = command_array[1].split(',')
       @valid_pos = @table.valid_position?(@coord[0].to_i, @coord[1].to_i)
-      # check if this factors in random command_array[1] commands
     end
   end
 

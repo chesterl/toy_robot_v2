@@ -13,7 +13,7 @@ class TablePosition < Table
   end
 
   def east
-    x += 1
+    @x += 1
     @x -= 1 unless Table.new.valid_position?(@x,@y)
   end
 
