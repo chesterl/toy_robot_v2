@@ -1,31 +1,66 @@
-# ToyRobot
+#Toy Robot Simulator
 
-TODO: Write a gem description
+##Description:
+- The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.
+- There are no other obstructions on the table surface.
+- The robot is free to roam around the surface of the table, but must be prevented from falling to destruction. Any movement
+that would result in the robot falling from the table must be prevented, however further valid movement commands must still
+be allowed.
 
-## Installation
+Create an application that can read in commands of the following form
+- PLACE X,Y,F
+- MOVE
+- LEFT
+- RIGHT
+- REPORT
 
-Add this line to your application's Gemfile:
+PLACE will put the toy robot on the table in position X,Y and facing NORTH, SOUTH, EAST or WEST.
+- The origin (0,0) can be considered to be the SOUTH WEST most corner.
+- The first valid command to the robot is a PLACE command, after that, any sequence of commands may be issued, in any order, including another PLACE command.
+- The application should discard all commands in the sequence until a valid PLACE command has been executed.
 
-```ruby
-gem 'toy_robot'
-```
+MOVE will move the toy robot one unit forward in the direction it is currently facing.
 
-And then execute:
+LEFT and RIGHT will rotate the robot 90 degrees in the specified direction without changing the position of the robot.
+REPORT will announce the X,Y and F of the robot. This can be in any form, but standard output is sufficient.
 
-    $ bundle
+- A robot that is not on the table can choose the ignore the MOVE, LEFT, RIGHT and REPORT commands.
+- Input can be from a file, or from standard input, as the developer chooses.
+- Provide test data to exercise the application.
 
-Or install it yourself as:
+Constraints:
+The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot.
+Any move that would cause the robot to fall must be ignored.
 
-    $ gem install toy_robot
+Example Input and Output:
 
-## Usage
+a)
+PLACE 0,0,NORTH
+MOVE
+REPORT
+Output: 0,1,NORTH
 
-TODO: Write usage instructions here
+b)
+PLACE 0,0,NORTH
+LEFT
+REPORT
+Output: 0,0,WEST
 
-## Contributing
+c)
+PLACE 1,2,EAST
+MOVE
+MOVE
+LEFT
+MOVE
+REPORT
+Output: 3,3,NORTH
 
-1. Fork it ( https://github.com/[my-github-username]/toy_robot/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+##Usage
+
+Run `ruby bin/toy_robot_simulation.rb`
+Enter commands as per instructions. Type `exit` to leave program.
+
+##Specs
+Run rspec spec/ from main directory.
+
+
