@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Table do
 
-  let(:table) { Table.new }
+  let!(:table) { Table.new }
 
   context "valid position" do
     it "with x coord table edge" do

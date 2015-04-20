@@ -50,29 +50,21 @@ describe Robot do
     end
 
     it "should report the current position and direction" do
-      # robot.facing = Direction.new('north')
-      # robot.position = TablePosition.new(1,1)
       output = capture_standard_output { robot.report(nil) }
       expect(output).to eql("1,1,NORTH")
     end
 
     it "should not move robot" do
-      # robot.facing = Direction.new('north')
-      # robot.position = TablePosition.new(1,1)
       robot.move('3,3')
       expect(robot.position.y).to eq 1
     end
 
     it "should not report" do
-      # robot.facing = Direction.new('north')
-      # robot.position = TablePosition.new(1,1)
       output = capture_standard_output { robot.report("1,1") }
       expect(output).to eql("")
     end
 
     it "should not turn left" do
-      # robot.facing = Direction.new('north')
-      # robot.position = TablePosition.new(1,1)
       robot.left('stuff')
       output = capture_standard_output { robot.report(nil) }
       expect(output).to eql("1,1,NORTH")
