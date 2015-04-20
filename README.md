@@ -61,6 +61,6 @@ Run `ruby bin/toy_robot_simulation.rb`
 Enter commands as per instructions. Type `exit` to leave program.
 
 ##Specs
-Run rspec spec/ from main directory.
+Run `rspec spec/` from main directory.
 
 
