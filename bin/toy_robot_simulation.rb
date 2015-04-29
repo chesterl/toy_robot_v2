@@ -13,7 +13,7 @@ puts 'You must issue a "PLACE X,Y,DIRECTION" command followed by any of the foll
 puts 'Type "exit" to close program'
 
 while command != "exit\n"
-  command = ARGF.readline
+  command = $stdin.readline
   simulation.process(command)
 end
 
