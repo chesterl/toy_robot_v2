@@ -5,7 +5,7 @@ class Direction
   DIRECTIONS = ['north','east','south', 'west']
 
   def initialize(facing)
-    @directions = ['north','east','south', 'west']
+    @directions = DIRECTIONS
     orientation(facing)
   end
 

@@ -8,22 +8,22 @@ class TablePosition
   end
 
   def north(table)
-    self.y += 1
-    self.y -= 1 unless table.valid_position?(x,y)
+    self.y += 1 if table.valid_position?(x,y+1)
   end
 
   def east(table)
-    self.x += 1
-    self.x -= 1 unless table.valid_position?(x,y)
+    self.x += 1 if table.valid_position?(x+1,y)
   end
 
   def south(table)
-    self.y -= 1
-    self.y += 1 unless table.valid_position?(x,y)
+    self.y -= 1 if table.valid_position?(x,y-1)
   end
 
   def west(table)
-    self.x -= 1
-    self.x += 1 unless table.valid_position?(x,y)
+    self.x -= 1 if table.valid_position?(x-1,y)
+  end
+
+  def to_s
+    "#{x},#{y}"
   end
 end
