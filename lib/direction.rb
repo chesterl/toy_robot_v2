@@ -17,6 +17,10 @@ class Direction
     directions.rotate!(1)
   end
 
+  def to_s
+    "#{directions[0].upcase}"
+  end
+
   private
 
   def orientation(facing)

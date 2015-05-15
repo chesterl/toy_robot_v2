@@ -19,7 +19,7 @@ class Robot
 
   def report(args = {})
     return if args[:placement]
-    puts "#{position.x},#{position.y},#{facing.directions[0].upcase}"
+    puts "#{position},#{facing}"
   end
 
   def left(args = {})

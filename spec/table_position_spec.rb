@@ -2,6 +2,15 @@ require 'spec_helper'
 
 describe TablePosition do
 
+  context 'overriding method' do
+
+    let!(:table_position) { TablePosition.new(3,3) }
+
+    it "should read the x and y coordinates" do
+      expect(table_position.to_s).to eq "3,3"
+    end
+  end
+
   context 'valid position' do
     let!(:table_position) { TablePosition.new(3,3) }
     let!(:table) { Table.new }
@@ -21,6 +30,8 @@ describe TablePosition do
     it "west should decrease x position by 1" do
       expect { table_position.west(table) }.to change{table_position.x}.by(-1)
     end
+
+
   end
 
   context 'invalid position' do

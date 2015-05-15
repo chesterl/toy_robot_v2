@@ -14,4 +14,7 @@ describe Direction do
     expect(direction.directions).to eq ['east','south','west','north']
   end
 
+  it "should read the direction facing" do
+    expect(direction.to_s).to eq "NORTH"
+  end
 end
