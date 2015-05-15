@@ -79,11 +79,30 @@ Run `rspec spec/` from main directory.
 
 ## Discussion
 
-My original attempt for this exercise can be found in this [repo](https://github.com/chesterl/toy_robot_simulator). After some feedback, I've attempted the exercise again with more considerations to TDD.
+This is my second revision on this exercise. I've attempted to utilize better TDD practices and OOP practices in this second version.
 
-In this revision, I've broken up the `Simulation` into simpler classes and simplified the way the robot processes commands. All the case statements are removed and commands are evaluated by the `send` method.
+In this revision, I've broken up the `Simulation` into simpler components and simplified the way the robot processes commands. All the case statements were removed and commands are evaluated by the `send` method.
 
-I like the way I cleaned up the movement and command structure of the robot. I did not put commands into a module but that could still be done on further refactoring. I'm not entirely sure with my use of the directions constant in `direction.rb` because I feel there is some redundancy with its inclusion. However, I couldn't think of a simpler way to detect a valid direction. If anyone has feedback on this part, I would love to hear it.
+**Things I changed**
+
+On a second refactoring, I applied some of the principles from the book 'POODR' by Sandi Metz. Some of the changes include:
+
+- removed unnecessary inheritance
+- reduced usage of instance variable references (used wrapper methods)
+- changed arguments to a hash
+- additional tests for thoroughness
+
+The biggest change was the usage of a hash to pass the arguments to robot. I think the code is more flexible although the tests were finicky to adjust.
+
+**Things I want to see improved**
+
+I'm not entirely sure about my use of the `DIRECTIONS` constant in `direction.rb`. I feel there is some redundancy with its inclusion. However, given the simplicity of the application, it seems like a valid option for now.
+
+I also feel that the repeated line `return if args[:placement]` in the `robot` class may not be the most optimal way to handle invalid commands. Again, given the application simplicity, it is a solution for now, but there may be other solutions.
+
+The code I am least happy with is the coupling between the robot and the table position/direction inside `robot.rb`. While it doesn't pose a problem right now, reading 'POODR' has made me re-think about minimizing dependent code.
+
+I would love to hear any input on the above remarks or other suggestions/comments related to the exercise.
 
 ## License
 
