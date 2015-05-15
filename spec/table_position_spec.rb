@@ -3,45 +3,48 @@ require 'spec_helper'
 describe TablePosition do
 
   context 'valid position' do
-    let!(:table) { TablePosition.new(3,3) }
+    let!(:table_position) { TablePosition.new(3,3) }
+    let!(:table) { Table.new }
 
     it "north should increase y position by 1" do
-      expect { table.north }.to change{table.y}.by(1)
+      expect { table_position.north(table) }.to change{table_position.y}.by(1)
     end
 
     it "east should increase x position by 1" do
-      expect { table.east }.to change{table.x}.by(1)
+      expect { table_position.east(table) }.to change{table_position.x}.by(1)
     end
 
     it "south should decrease y position by 1" do
-      expect { table.south }.to change{table.y}.by(-1)
+      expect { table_position.south(table) }.to change{table_position.y}.by(-1)
     end
 
     it "west should decrease x position by 1" do
-      expect { table.west }.to change{table.x}.by(-1)
+      expect { table_position.west(table) }.to change{table_position.x}.by(-1)
     end
   end
 
   context 'invalid position' do
 
+    let!(:table) { Table.new }
+
     it "north should not increase y position by 1" do
-      table = TablePosition.new(0,5)
-      expect { table.north }.to_not change{table.y}
+      table_position = TablePosition.new(0,5)
+      expect { table_position.north(table) }.to_not change{table_position.y}
     end
 
     it "east should not increase x position by 1" do
-      table = TablePosition.new(5,0)
-      expect { table.east }.to_not change{table.x}
+      table_position = TablePosition.new(5,0)
+      expect { table_position.east(table) }.to_not change{table_position.x}
     end
 
     it "south should not decrease y position by 1" do
-      table = TablePosition.new(5,0)
-      expect { table.south }.to_not change{table.y}
+      table_position = TablePosition.new(5,0)
+      expect { table_position.south(table) }.to_not change{table_position.y}
     end
 
     it "west should not decrease x position by 1" do
-      table = TablePosition.new(0,5)
-      expect { table.west }.to_not change{table.x}
+      table_position = TablePosition.new(0,5)
+      expect { table_position.west(table) }.to_not change{table_position.x}
     end
   end
 
