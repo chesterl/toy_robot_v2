@@ -1,4 +1,4 @@
-class TablePosition < Table
+class TablePosition
 
   attr_accessor :x, :y
 
@@ -7,23 +7,23 @@ class TablePosition < Table
     @y = y
   end
 
-  def north
-    @y += 1
-    @y -= 1 unless Table.new.valid_position?(@x,@y)
+  def north(table)
+    self.y += 1
+    self.y -= 1 unless table.valid_position?(x,y)
   end
 
-  def east
-    @x += 1
-    @x -= 1 unless Table.new.valid_position?(@x,@y)
+  def east(table)
+    self.x += 1
+    self.x -= 1 unless table.valid_position?(x,y)
   end
 
-  def south
-    @y -= 1
-    @y += 1 unless Table.new.valid_position?(@x,@y)
+  def south(table)
+    self.y -= 1
+    self.y += 1 unless table.valid_position?(x,y)
   end
 
-  def west
-    @x -= 1
-    @x += 1 unless Table.new.valid_position?(@x,@y)
+  def west(table)
+    self.x -= 1
+    self.x += 1 unless table.valid_position?(x,y)
   end
 end
