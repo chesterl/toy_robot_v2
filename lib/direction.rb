@@ -6,17 +6,21 @@ class Direction
 
   def initialize(facing)
     @directions = ['north','east','south', 'west']
-    until @directions[0] == facing
-      @directions.rotate!
-    end
+    orientation(facing)
   end
 
   def turn_left
-    @directions.rotate!(-1)
+    directions.rotate!(-1)
   end
 
   def turn_right
-    @directions.rotate!(1)
+    directions.rotate!(1)
+  end
+
+  private
+
+  def orientation(facing)
+    directions.rotate! until directions[0] == facing
   end
 
 end
