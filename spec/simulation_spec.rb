@@ -135,6 +135,46 @@ describe Simulation do
         expect(output).to eq('1,1,NORTH')
       end
 
+      it "should ignore an invalid move command" do
+        simulation.process('MOVE 3,3,EAST')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
+      it "should ignore an invalid report command" do
+        output = capture_standard_output { simulation.process('REPORT 3,3') }
+        expect(output).to be_empty
+      end
+    end
+
+    context "should not move off table" do
+      it "when commanded 'MOVE' at highest y coordinate boundary" do
+        simulation.process('PLACE 1,5,NORTH')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eql("1,5,NORTH")
+      end
+
+      it "when commanded 'MOVE' at lowest y coordinate boundary" do
+        simulation.process('PLACE 1,0,SOUTH')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eql("1,0,SOUTH")
+      end
+
+      it "when commanded 'MOVE' at highest x coordinate boundary" do
+        simulation.process('PLACE 5,1,EAST')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eql("5,1,EAST")
+      end
+
+      it "when commanded 'MOVE' at lowest x coordinate boundary" do
+        simulation.process('PLACE 0,1,WEST')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eql("0,1,WEST")
+      end
     end
   end
 
@@ -184,47 +224,93 @@ describe Simulation do
         expect(output).to eq '1,1,EAST'
       end
 
-      it "should ignore an invalid command" do
-        simulation.process('MOVE 3,3,EAST')
+      it "should report the position and direction after series of move comamnds" do
+        simulation.process('MOVE')
+        simulation.process('MOVE')
         output = capture_standard_output { simulation.process('REPORT') }
-        expect(output).to eq('1,1,NORTH')
+        expect(output).to eq '1,3,NORTH'
       end
 
-      it "should ignore an invalid report command" do
-        output = capture_standard_output { simulation.process('REPORT 3,3') }
-        expect(output).to be_empty
+      it "should report the position and direction after series of place comamnds" do
+        simulation.process('PLACE 2,4,SOUTH')
+        simulation.process('PLACE 0,3,WEST')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '0,3,WEST'
       end
+
+      it "should report the position and direction after series of left comamnds" do
+        simulation.process('LEFT')
+        simulation.process('LEFT')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '1,1,SOUTH'
+      end
+
+      it "should report the position and direction after series of right comamnds" do
+        simulation.process('RIGHT')
+        simulation.process('RIGHT')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '1,1,SOUTH'
+      end
+
+      it "should report the position and direction after sequence of place and move comamnds" do
+        simulation.process('PLACE 5,0,EAST')
+        simulation.process('MOVE')
+        simulation.process('PLACE 4,3,SOUTH')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '4,2,SOUTH'
+      end
+
+      it "should report the position and direction after sequences of place and left comamnds" do
+        simulation.process('PLACE 5,0,EAST')
+        simulation.process('LEFT')
+        simulation.process('PLACE 4,3,SOUTH')
+        simulation.process('LEFT')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '4,3,EAST'
+      end
+
+      it "should report the position and direction after sequences of place and right comamnds" do
+        simulation.process('PLACE 5,0,EAST')
+        simulation.process('RIGHT')
+        simulation.process('PLACE 4,3,SOUTH')
+        simulation.process('RIGHT')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '4,3,WEST'
+      end
+
+      it "should report the position and direction after sequences of place,left and right comamnds" do
+        simulation.process('PLACE 5,0,EAST')
+        simulation.process('LEFT')
+        simulation.process('PLACE 5,5,EAST')
+        simulation.process('RIGHT')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '5,5,SOUTH'
+      end
+
+      it "should report the position and direction after sequences of move,left and right comamnds" do
+        simulation.process('MOVE')
+        simulation.process('MOVE')
+        simulation.process('LEFT')
+        simulation.process('MOVE')
+        simulation.process('RIGHT')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '0,3,NORTH'
+      end
+
+      it "should report the position and direction after sequences of place,move,left and right comamnds" do
+        simulation.process('PLACE 3,1,EAST')
+        simulation.process('RIGHT')
+        simulation.process('PLACE 4,3,SOUTH')
+        simulation.process('MOVE')
+        simulation.process('MOVE')
+        simulation.process('LEFT')
+        simulation.process('LEFT')
+        simulation.process('MOVE')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq '4,2,NORTH'
+      end
+
     end
-
-    context "should not move off table" do
-      it "when commanded 'MOVE' at highest y coordinate boundary" do
-        simulation.process('PLACE 1,5,NORTH')
-        simulation.process('MOVE')
-        output = capture_standard_output { simulation.process('REPORT') }
-        expect(output).to eql("1,5,NORTH")
-      end
-
-      it "when commanded 'MOVE' at lowest y coordinate boundary" do
-        simulation.process('PLACE 1,0,SOUTH')
-        simulation.process('MOVE')
-        output = capture_standard_output { simulation.process('REPORT') }
-        expect(output).to eql("1,0,SOUTH")
-      end
-
-      it "when commanded 'MOVE' at highest x coordinate boundary" do
-        simulation.process('PLACE 5,1,EAST')
-        simulation.process('MOVE')
-        output = capture_standard_output { simulation.process('REPORT') }
-        expect(output).to eql("5,1,EAST")
-      end
-
-      it "when commanded 'MOVE' at lowest x coordinate boundary" do
-        simulation.process('PLACE 0,1,WEST')
-        simulation.process('MOVE')
-        output = capture_standard_output { simulation.process('REPORT') }
-        expect(output).to eql("0,1,WEST")
-      end
-    end
-
   end
 end
