@@ -10,9 +10,10 @@ class Simulation
   def process(command)
     begin
       read_command(command)
-      # Pass on command if coordinates are valid or do not exist (e.g. another command)
-      if @valid_pos || @valid_pos.nil?
-        command_hash = { placement: @coord, direction: direction, table: table }
+      # Pass on command if coordinates are valid w/ valid # of args or do not exist (e.g. another command)
+      command_hash = { placement: @coord, direction: direction, table: table }
+
+      if (@valid_pos and @coord.length == 3) || @valid_pos.nil?
         robot.send(@com, command_hash)
       else
         # ignore command

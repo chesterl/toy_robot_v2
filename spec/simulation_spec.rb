@@ -110,6 +110,12 @@ describe Simulation do
         expect(output).to eq('1,1,NORTH')
       end
 
+      it "should ignore the place command if additional arguments present" do
+        simulation.process('PLACE 5,5,EAST,WEST')
+        output = capture_standard_output { simulation.process('REPORT') }
+        expect(output).to eq('1,1,NORTH')
+      end
+
       it "should ignore an invalid move command" do
         simulation.process('MOVE 6,5,EAST')
         output = capture_standard_output { simulation.process('REPORT') }
