@@ -9,23 +9,23 @@ describe Robot do
     before :each do
       robot.direction = Direction.new('north')
       robot.position = TablePosition.new(1,1)
-      @hash = { placement: nil, direction: 'north', table: Table.new }
+      @table = Table.new
     end
 
     it "should move robot" do
-      robot.move(@hash)
+      robot.move(@table)
       expect(robot.position.y).to eq 2
     end
 
     it "should turn left" do
-      robot.left(@hash)
-      output = capture_standard_output { robot.report(@hash) }
+      robot.left
+      output = capture_standard_output { robot.report }
       expect(output).to eql("1,1,WEST")
     end
 
     it "should turn right" do
-      robot.right(@hash)
-      output = capture_standard_output { robot.report(@hash) }
+      robot.right
+      output = capture_standard_output { robot.report }
       expect(output).to eql("1,1,EAST")
     end
 
@@ -37,7 +37,7 @@ describe Robot do
     end
 
     it "should report the current position and direction" do
-      output = capture_standard_output { robot.report(@hash) }
+      output = capture_standard_output { robot.report }
       expect(output).to eql("1,1,NORTH")
     end
 

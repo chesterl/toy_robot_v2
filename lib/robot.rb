@@ -6,9 +6,8 @@ class Robot
     @placed = false
   end
 
-  def move(args = {})
-    return if args[:placement]
-    position.send(direction.directions[0], args[:table])
+  def move(table)
+    position.send(direction.directions[0], table)
   end
 
   def place(coordinates,facing)
@@ -17,18 +16,15 @@ class Robot
       self.direction = facing
   end
 
-  def report(args = {})
-    return if args[:placement]
+  def report
     puts "#{position},#{direction}"
   end
 
-  def left(args = {})
-    return if args[:placement]
+  def left
     direction.turn_left
   end
 
-  def right(args = {})
-    return if args[:placement]
+  def right
     direction.turn_right
   end
 
