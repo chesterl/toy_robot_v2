@@ -1,6 +1,6 @@
 class Robot
 
-  attr_accessor :position, :facing, :placed
+  attr_accessor :position, :direction, :placed
 
   def initialize
     @placed = false
@@ -8,28 +8,28 @@ class Robot
 
   def move(args = {})
     return if args[:placement]
-    position.send(facing.directions[0], args[:table])
+    position.send(direction.directions[0], args[:table])
   end
 
-  def place(args = {})
+  def place(coordinates,facing)
       self.placed = true
-      self.position = TablePosition.new(args[:placement][0].to_i, args[:placement][1].to_i)
-      self.facing = Direction.new(args[:direction])
+      self.position = coordinates
+      self.direction = facing
   end
 
   def report(args = {})
     return if args[:placement]
-    puts "#{position},#{facing}"
+    puts "#{position},#{direction}"
   end
 
   def left(args = {})
     return if args[:placement]
-    facing.turn_left
+    direction.turn_left
   end
 
   def right(args = {})
     return if args[:placement]
-    facing.turn_right
+    direction.turn_right
   end
 
 end
