@@ -81,26 +81,24 @@ Run `rspec spec/` from main directory.
 
 This is my second revision on this exercise. I've attempted to utilize better TDD practices and OOP practices in this second version.
 
-In this revision, I've broken up the `Simulation` into simpler components and simplified the way the robot processes commands. All the case statements were removed and commands are evaluated by the `send` method.
+In this revision, I've broken up the `Simulation` into simpler components and simplified the way the robot processes commands. All the case statements were removed and commands areevaluated by the `send` method.
 
 **Things I changed**
 
 On a second refactoring, I applied some of the principles from the book 'POODR' by Sandi Metz. Some of the changes include:
 
-- removed unnecessary inheritance
-- reduced usage of instance variable references (used wrapper methods)
-- changed arguments to a hash
+- removing unnecessary inheritance
+- reducing usage of instance variable references (used wrapper methods)
+- changing arguments to a hash
 - additional tests for thoroughness
 
-The biggest change was the usage of a hash to pass the arguments to robot. I think the code is more flexible although the tests were finicky to adjust.
+On a third refactoring, I decoupled the robot entirely of other objects and moved all the command processing/checking to the `Simulation`. Doing this, resolved some issues that I mentioned in the previous versions of the README. See commit history to see previous README comments.
 
 **Things I want to see improved**
 
-I'm not entirely sure about my use of the `DIRECTIONS` constant in `direction.rb`. I feel there is some redundancy with its inclusion. However, given the simplicity of the application, it seems like a valid option for now.
+In my third refactoring, I made some trade offs by adding more conditional checks in the simulation and eliminating more dependencies in the `robot` class.
 
-I also feel that the repeated line `return if args[:placement]` in the `robot` class may not be the most optimal way to handle invalid commands. Again, given the application simplicity, it is a solution for now, but there may be other solutions.
-
-The code I am least happy with is the coupling between the robot and the table position/direction inside `robot.rb`. While it doesn't pose a problem right now, reading 'POODR' has made me re-think about minimizing dependent code.
+By moving all the command checks outside of the robot, I was able to remove the `return if args[:placement]` line in the robot which was bothering me. The simulation now has lengthier `if` statements as well as more methods for checking valid commands, but it keeps the robot other classes cleaner and less dependent.
 
 I would love to hear any input on the above remarks or other suggestions/comments related to the exercise.
 
