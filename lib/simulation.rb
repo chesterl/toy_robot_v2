@@ -11,10 +11,13 @@ class Simulation
     begin
       read_command(command)
       # Pass on command if coordinates are valid w/ valid # of args or do not exist (e.g. another command)
-      command_hash = { placement: @coord, direction: direction, table: table }
-      if valid_place_command
-        robot.send(@com,command_hash)
-      elsif valid_other_command and robot.placed
+      command_hash = { placement: @coord, table: table }
+
+      if @com == :place and valid_place_command
+        coordinates = TablePosition.new(@coord[0].to_i, @coord[1].to_i)
+        facing = Direction.new(direction)
+        robot.send(@com,coordinates,facing)
+      elsif other_command and robot.placed
         robot.send(@com,command_hash)
       else
         # ignore
@@ -51,7 +54,7 @@ class Simulation
     end
   end
 
-  def valid_other_command
+  def other_command
     @args.nil?
   end
 
