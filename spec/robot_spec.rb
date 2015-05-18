@@ -7,7 +7,7 @@ describe Robot do
     let!(:robot) { Robot.new }
 
     before :each do
-      robot.facing = Direction.new('north')
+      robot.direction = Direction.new('north')
       robot.position = TablePosition.new(1,1)
       @hash = { placement: nil, direction: 'north', table: Table.new }
     end
@@ -30,8 +30,9 @@ describe Robot do
     end
 
     it "should place the robot" do
-      hash = { placement: ["1","1","north"], direction: 'north', table: Table.new }
-      robot.place(hash)
+      direction = Direction.new('north')
+      position = TablePosition.new(1,1)
+      robot.place(position,direction)
       expect(robot.position.x).to eq 1
     end
 
